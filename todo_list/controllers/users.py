@@ -19,7 +19,7 @@ class UserController:
             first_name=user_create.first_name,
             last_name=user_create.last_name,
             email=user_create.email,
-            password=user_create.password
+            password=user_create.password,
         )
         self.session.add(new_user)
         self.session.commit()
@@ -45,4 +45,6 @@ class UserController:
         return user
 
     def get_user_tables(self, user_id) -> list[Table]:
-        return self.session.exec(select(Table).join(User).where(User.id == user_id)).all()
+        return self.session.exec(
+            select(Table).join(User).where(User.id == user_id)
+        ).all()

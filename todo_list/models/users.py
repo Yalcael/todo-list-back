@@ -1,4 +1,3 @@
-from pydantic import EmailStr, SecretStr
 from sqlmodel import Field, SQLModel
 
 
