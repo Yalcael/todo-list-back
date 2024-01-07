@@ -4,7 +4,7 @@ from sqlmodel import SQLModel, Field
 class TaskBase(SQLModel):
     title: str
     description: str
-    tags: list[str]
+    tags: str
 
 
 class Task(TaskBase, table=True):
