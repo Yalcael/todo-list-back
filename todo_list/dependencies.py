@@ -2,6 +2,7 @@ from fastapi import Depends
 from sqlmodel import Session
 
 from todo_list.controllers.columns import ColumnController
+from todo_list.controllers.kpi import KpiController
 from todo_list.controllers.tables import TableController
 from todo_list.controllers.tasks import TaskController
 from todo_list.controllers.users import UserController
@@ -27,3 +28,7 @@ def get_column_controller(session=Depends(get_session)):
 
 def get_task_controller(session=Depends(get_session)):
     return TaskController(session)
+
+
+def get_kpi_controller(session=Depends(get_session)):
+    return KpiController(session)
