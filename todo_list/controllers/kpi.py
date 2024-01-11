@@ -2,6 +2,7 @@ from datetime import datetime, timedelta
 
 from sqlmodel import col
 
+from todo_list.models.tables import Table
 from todo_list.models.users import User
 
 
@@ -20,9 +21,18 @@ class KpiController:
             .count()
         )
 
+    def _get_average_tables_per_users(self):
+        total_users = self._get_number_of_users()
+        total_tables = self.session.query(Table).count()
+
+        if total_users > 0:
+            return total_tables / total_users
+        else:
+            return 0
+
     def get_users_kpi(self):
         return {
             "number_of_users": self._get_number_of_users(),
             "number_of_users_last_week": self._get_number_of_users_last_week(),
-            "average_tables_per_users": 6,
+            "average_tables_per_users": self._get_average_tables_per_users(),
         }
