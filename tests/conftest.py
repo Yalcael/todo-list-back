@@ -6,6 +6,7 @@ from sqlmodel import SQLModel, Session
 from starlette.testclient import TestClient
 
 from todo_list.api import create_app
+from todo_list.controllers.tables import TableController
 from todo_list.controllers.users import UserController
 
 
@@ -26,6 +27,11 @@ def fixture_session(engine):
 @pytest.fixture(name="user_controller")
 def fixture_user_controller(session):
     return UserController(session)
+
+
+@pytest.fixture(name="table_controller")
+def fixture_table_controller(session):
+    return TableController(session)
 
 
 @pytest.fixture(name="faker")
