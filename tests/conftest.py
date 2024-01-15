@@ -6,7 +6,9 @@ from sqlmodel import SQLModel, Session
 from starlette.testclient import TestClient
 
 from todo_list.api import create_app
+from todo_list.controllers.columns import ColumnController
 from todo_list.controllers.tables import TableController
+from todo_list.controllers.tasks import TaskController
 from todo_list.controllers.users import UserController
 
 
@@ -32,6 +34,16 @@ def fixture_user_controller(session):
 @pytest.fixture(name="table_controller")
 def fixture_table_controller(session):
     return TableController(session)
+
+
+@pytest.fixture(name="column_controller")
+def fixture_column_controller(session):
+    return ColumnController(session)
+
+
+@pytest.fixture(name="task_controller")
+def fixture_task_controller(session):
+    return TaskController(session)
 
 
 @pytest.fixture(name="faker")
