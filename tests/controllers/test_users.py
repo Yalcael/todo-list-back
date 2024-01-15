@@ -1,5 +1,7 @@
+from datetime import datetime
 
 from faker import Faker
+from freezegun import freeze_time
 from sqlmodel import Session, select
 
 from todo_list.controllers.tables import TableController
@@ -11,20 +13,23 @@ from todo_list.models.users import User, UserCreate, UserUpdate
 def test_create_user(
     user_controller: UserController, session: Session, faker: Faker
 ) -> None:
-    created_user = user_controller.create_user(
-        UserCreate(
-            first_name=faker.first_name(),
-            last_name=faker.last_name(),
-            email=faker.email(),
-            password=faker.password(),
+    with freeze_time(faker.date_time()):
+        now = datetime.now()
+        created_user = user_controller.create_user(
+            UserCreate(
+                first_name=faker.first_name(),
+                last_name=faker.last_name(),
+                email=faker.email(),
+                password=faker.password(),
+            )
         )
-    )
-    users = session.exec(select(User)).all()
-    assert len(users) == 1
-    assert created_user.first_name == users[0].first_name
-    assert created_user.last_name == users[0].last_name
-    assert created_user.email == users[0].email
-    assert created_user.password == users[0].password
+        users = session.exec(select(User)).all()
+        assert len(users) == 1
+        assert created_user.first_name == users[0].first_name
+        assert created_user.last_name == users[0].last_name
+        assert created_user.email == users[0].email
+        assert created_user.password == users[0].password
+        assert created_user.created_at == now
 
 
 def test_get_user_by_id(user_controller: UserController, faker: Faker) -> None:
