@@ -1,5 +1,6 @@
 from sqlmodel import select
 
+from todo_list.models.columns import Column
 from todo_list.models.tables import Table, TableCreate, TableUpdate
 
 
@@ -33,3 +34,8 @@ class TableController:
         self.session.commit()
         self.session.refresh(table)
         return table
+
+    def get_table_columns(self, table_id) -> list[Column]:
+        return self.session.exec(
+            select(Column).join(Table).where(Table.id == table_id)
+        ).all()

@@ -1,8 +1,10 @@
 from faker import Faker
 from sqlmodel import Session, select
 
+from todo_list.controllers.columns import ColumnController
 from todo_list.controllers.tables import TableController
 from todo_list.controllers.users import UserController
+from todo_list.models.columns import ColumnCreate
 from todo_list.models.tables import TableCreate, Table, TableUpdate
 from todo_list.models.users import UserCreate
 
@@ -165,3 +167,76 @@ def test_update_table(user_controller: UserController, table_controller: TableCo
     table = session.exec(select(Table)).all()
     assert table[0].title == updated_table.title
     assert table[0].user_id == updated_table.user_id
+
+
+def test_get_table_columns(
+    user_controller: UserController, table_controller: TableController, column_controller: ColumnController, faker: Faker
+) -> None:
+    created_user = user_controller.create_user(
+        UserCreate(
+            first_name=faker.first_name(),
+            last_name=faker.last_name(),
+            email=faker.email(),
+            password=faker.password()
+        )
+    )
+    created_user_2 = user_controller.create_user(
+        UserCreate(
+            first_name=faker.first_name(),
+            last_name=faker.last_name(),
+            email=faker.email(),
+            password=faker.password()
+        )
+    )
+
+    created_table = table_controller.create_table(
+        TableCreate(
+            title=faker.city(),
+            user_id=created_user.id
+        )
+    )
+    created_table_2 = table_controller.create_table(
+        TableCreate(
+            title=faker.city(),
+            user_id=created_user_2.id
+        )
+    )
+    created_column_1 = column_controller.create_column(
+        ColumnCreate(
+            title=faker.city(),
+            table_id=created_table.id
+        )
+    )
+    created_column_2 = column_controller.create_column(
+        ColumnCreate(
+            title=faker.city(),
+            table_id=created_table.id
+        )
+    )
+    created_column_3 = column_controller.create_column(
+        ColumnCreate(
+            title=faker.city(),
+            table_id=created_table_2.id
+        )
+    )
+    created_column_4 = column_controller.create_column(
+        ColumnCreate(
+            title=faker.city(),
+            table_id=created_table_2.id
+        )
+    )
+    table_columns = table_controller.get_table_columns(table_id=created_table.id)
+    table2_columns = table_controller.get_table_columns(table_id=created_table_2.id)
+    assert len(table_columns) == 2
+    assert len(table2_columns) == 2
+    assert table_columns[0].table_id == created_column_1.table_id
+    assert table_columns[0].title == created_column_1.title
+
+    assert table_columns[1].table_id == created_column_2.table_id
+    assert table_columns[1].title == created_column_2.title
+
+    assert table2_columns[0].table_id == created_column_3.table_id
+    assert table2_columns[0].title == created_column_3.title
+
+    assert table2_columns[1].table_id == created_column_4.table_id
+    assert table2_columns[1].title == created_column_4.title

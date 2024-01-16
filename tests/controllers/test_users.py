@@ -135,7 +135,7 @@ def test_update_user(
     assert user[0].email == email
 
 
-def test_get_user_runs(
+def test_get_user_tables(
     user_controller: UserController, table_controller: TableController, faker: Faker
 ) -> None:
     created_user = user_controller.create_user(
