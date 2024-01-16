@@ -57,13 +57,15 @@ def test_get_table_by_id(
     assert table.user_id == created_table_1.user_id
 
 
-def test_get_tables(user_controller: UserController, table_controller: TableController, faker: Faker) -> None:
+def test_get_tables(
+    user_controller: UserController, table_controller: TableController, faker: Faker
+) -> None:
     created_user_1 = user_controller.create_user(
         UserCreate(
             first_name=faker.first_name(),
             last_name=faker.last_name(),
             email=faker.email(),
-            password=faker.password()
+            password=faker.password(),
         )
     )
 
@@ -72,38 +74,23 @@ def test_get_tables(user_controller: UserController, table_controller: TableCont
             first_name=faker.first_name(),
             last_name=faker.last_name(),
             email=faker.email(),
-            password=faker.password()
+            password=faker.password(),
         )
     )
     created_table_1 = table_controller.create_table(
-        TableCreate(
-            title=faker.city(),
-            user_id=created_user_1.id
-        )
+        TableCreate(title=faker.city(), user_id=created_user_1.id)
     )
     created_table_2 = table_controller.create_table(
-        TableCreate(
-            title=faker.city(),
-            user_id=created_user_1.id
-        )
+        TableCreate(title=faker.city(), user_id=created_user_1.id)
     )
     created_table_3 = table_controller.create_table(
-        TableCreate(
-            title=faker.city(),
-            user_id=created_user_1.id
-        )
+        TableCreate(title=faker.city(), user_id=created_user_1.id)
     )
     created_table_4 = table_controller.create_table(
-        TableCreate(
-            title=faker.city(),
-            user_id=created_user_2.id
-        )
+        TableCreate(title=faker.city(), user_id=created_user_2.id)
     )
     created_table_5 = table_controller.create_table(
-        TableCreate(
-            title=faker.city(),
-            user_id=created_user_2.id
-        )
+        TableCreate(title=faker.city(), user_id=created_user_2.id)
     )
     tables = table_controller.get_tables()
     assert tables[0].title == created_table_1.title
@@ -118,26 +105,25 @@ def test_get_tables(user_controller: UserController, table_controller: TableCont
     assert tables[4].user_id == created_table_5.user_id
 
 
-def test_delete_table(user_controller: UserController, table_controller: TableController, session: Session, faker: Faker) -> None:
+def test_delete_table(
+    user_controller: UserController,
+    table_controller: TableController,
+    session: Session,
+    faker: Faker,
+) -> None:
     created_user = user_controller.create_user(
         UserCreate(
             first_name=faker.first_name(),
             last_name=faker.last_name(),
             email=faker.email(),
-            password=faker.password()
+            password=faker.password(),
         )
     )
     created_table_1 = table_controller.create_table(
-        TableCreate(
-            title=faker.city(),
-            user_id=created_user.id
-        )
+        TableCreate(title=faker.city(), user_id=created_user.id)
     )
     created_table_2 = table_controller.create_table(
-        TableCreate(
-            title=faker.city(),
-            user_id=created_user.id
-        )
+        TableCreate(title=faker.city(), user_id=created_user.id)
     )
     table_controller.delete_table(created_table_1.id)
     table = session.exec(select(Table)).one()
@@ -145,21 +131,23 @@ def test_delete_table(user_controller: UserController, table_controller: TableCo
     assert table.user_id == created_table_2.user_id
 
 
-def test_update_table(user_controller: UserController, table_controller: TableController, session: Session, faker: Faker) -> None:
+def test_update_table(
+    user_controller: UserController,
+    table_controller: TableController,
+    session: Session,
+    faker: Faker,
+) -> None:
     title = faker.city()
     created_user = user_controller.create_user(
         UserCreate(
             first_name=faker.first_name(),
             last_name=faker.last_name(),
             email=faker.email(),
-            password=faker.password()
+            password=faker.password(),
         )
     )
     created_table = table_controller.create_table(
-        TableCreate(
-            title=faker.city(),
-            user_id=created_user.id
-        )
+        TableCreate(title=faker.city(), user_id=created_user.id)
     )
     updated_table = table_controller.update_table(
         created_table.user_id, TableUpdate(title=title)
@@ -170,14 +158,17 @@ def test_update_table(user_controller: UserController, table_controller: TableCo
 
 
 def test_get_table_columns(
-    user_controller: UserController, table_controller: TableController, column_controller: ColumnController, faker: Faker
+    user_controller: UserController,
+    table_controller: TableController,
+    column_controller: ColumnController,
+    faker: Faker,
 ) -> None:
     created_user = user_controller.create_user(
         UserCreate(
             first_name=faker.first_name(),
             last_name=faker.last_name(),
             email=faker.email(),
-            password=faker.password()
+            password=faker.password(),
         )
     )
     created_user_2 = user_controller.create_user(
@@ -185,45 +176,27 @@ def test_get_table_columns(
             first_name=faker.first_name(),
             last_name=faker.last_name(),
             email=faker.email(),
-            password=faker.password()
+            password=faker.password(),
         )
     )
 
     created_table = table_controller.create_table(
-        TableCreate(
-            title=faker.city(),
-            user_id=created_user.id
-        )
+        TableCreate(title=faker.city(), user_id=created_user.id)
     )
     created_table_2 = table_controller.create_table(
-        TableCreate(
-            title=faker.city(),
-            user_id=created_user_2.id
-        )
+        TableCreate(title=faker.city(), user_id=created_user_2.id)
     )
     created_column_1 = column_controller.create_column(
-        ColumnCreate(
-            title=faker.city(),
-            table_id=created_table.id
-        )
+        ColumnCreate(title=faker.city(), table_id=created_table.id)
     )
     created_column_2 = column_controller.create_column(
-        ColumnCreate(
-            title=faker.city(),
-            table_id=created_table.id
-        )
+        ColumnCreate(title=faker.city(), table_id=created_table.id)
     )
     created_column_3 = column_controller.create_column(
-        ColumnCreate(
-            title=faker.city(),
-            table_id=created_table_2.id
-        )
+        ColumnCreate(title=faker.city(), table_id=created_table_2.id)
     )
     created_column_4 = column_controller.create_column(
-        ColumnCreate(
-            title=faker.city(),
-            table_id=created_table_2.id
-        )
+        ColumnCreate(title=faker.city(), table_id=created_table_2.id)
     )
     table_columns = table_controller.get_table_columns(table_id=created_table.id)
     table2_columns = table_controller.get_table_columns(table_id=created_table_2.id)

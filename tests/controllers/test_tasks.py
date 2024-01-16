@@ -11,33 +11,34 @@ from todo_list.models.tasks import TaskCreate, Task, TaskUpdate
 from todo_list.models.users import UserCreate
 
 
-def test_create_task(user_controller: UserController, table_controller: TableController, column_controller: ColumnController, task_controller: TaskController, session: Session, faker: Faker) -> None:
+def test_create_task(
+    user_controller: UserController,
+    table_controller: TableController,
+    column_controller: ColumnController,
+    task_controller: TaskController,
+    session: Session,
+    faker: Faker,
+) -> None:
     created_user = user_controller.create_user(
         UserCreate(
             first_name=faker.first_name(),
             last_name=faker.last_name(),
             email=faker.email(),
-            password=faker.password()
+            password=faker.password(),
         )
     )
     created_table = table_controller.create_table(
-        TableCreate(
-            title=faker.city(),
-            user_id=created_user.id
-        )
+        TableCreate(title=faker.city(), user_id=created_user.id)
     )
     created_column = column_controller.create_column(
-        ColumnCreate(
-            title=faker.city(),
-            table_id=created_table.id
-        )
+        ColumnCreate(title=faker.city(), table_id=created_table.id)
     )
     created_task = task_controller.create_task(
         TaskCreate(
             title=faker.city(),
             description=faker.catch_phrase(),
             tags=faker.catch_phrase_noun(),
-            column_id=created_column.id
+            column_id=created_column.id,
         )
     )
     tasks = session.exec(select(Task)).one()
@@ -47,33 +48,33 @@ def test_create_task(user_controller: UserController, table_controller: TableCon
     assert created_task.tags == tasks.tags
 
 
-def test_get_task_by_id(user_controller: UserController, table_controller: TableController, column_controller: ColumnController, task_controller: TaskController, faker: Faker) -> None:
+def test_get_task_by_id(
+    user_controller: UserController,
+    table_controller: TableController,
+    column_controller: ColumnController,
+    task_controller: TaskController,
+    faker: Faker,
+) -> None:
     created_user = user_controller.create_user(
         UserCreate(
             first_name=faker.first_name(),
             last_name=faker.last_name(),
             email=faker.email(),
-            password=faker.password()
+            password=faker.password(),
         )
     )
     created_table = table_controller.create_table(
-        TableCreate(
-            title=faker.city(),
-            user_id=created_user.id
-        )
+        TableCreate(title=faker.city(), user_id=created_user.id)
     )
     created_column = column_controller.create_column(
-        ColumnCreate(
-            title=faker.city(),
-            table_id=created_table.id
-        )
+        ColumnCreate(title=faker.city(), table_id=created_table.id)
     )
     created_task = task_controller.create_task(
         TaskCreate(
             title=faker.city(),
             description=faker.catch_phrase(),
             tags=faker.catch_phrase_noun(),
-            column_id=created_column.id
+            column_id=created_column.id,
         )
     )
     task = task_controller.get_task_by_id(created_task.id)
@@ -84,13 +85,19 @@ def test_get_task_by_id(user_controller: UserController, table_controller: Table
     assert task.column_id == created_task.column_id
 
 
-def test_get_tasks(user_controller: UserController, table_controller: TableController, column_controller: ColumnController, task_controller: TaskController, faker: Faker) -> None:
+def test_get_tasks(
+    user_controller: UserController,
+    table_controller: TableController,
+    column_controller: ColumnController,
+    task_controller: TaskController,
+    faker: Faker,
+) -> None:
     created_user = user_controller.create_user(
         UserCreate(
             first_name=faker.first_name(),
             last_name=faker.last_name(),
             email=faker.email(),
-            password=faker.password()
+            password=faker.password(),
         )
     )
     created_user_1 = user_controller.create_user(
@@ -98,39 +105,27 @@ def test_get_tasks(user_controller: UserController, table_controller: TableContr
             first_name=faker.first_name(),
             last_name=faker.last_name(),
             email=faker.email(),
-            password=faker.password()
+            password=faker.password(),
         )
     )
     created_table = table_controller.create_table(
-        TableCreate(
-            title=faker.city(),
-            user_id=created_user.id
-        )
+        TableCreate(title=faker.city(), user_id=created_user.id)
     )
     created_table_1 = table_controller.create_table(
-        TableCreate(
-            title=faker.city(),
-            user_id=created_user_1.id
-        )
+        TableCreate(title=faker.city(), user_id=created_user_1.id)
     )
     created_column = column_controller.create_column(
-        ColumnCreate(
-            title=faker.city(),
-            table_id=created_table.id
-        )
+        ColumnCreate(title=faker.city(), table_id=created_table.id)
     )
     created_column_1 = column_controller.create_column(
-        ColumnCreate(
-            title=faker.city(),
-            table_id=created_table_1.id
-        )
+        ColumnCreate(title=faker.city(), table_id=created_table_1.id)
     )
     created_task = task_controller.create_task(
         TaskCreate(
             title=faker.city(),
             description=faker.catch_phrase(),
             tags=faker.catch_phrase_noun(),
-            column_id=created_column.id
+            column_id=created_column.id,
         )
     )
     created_task_1 = task_controller.create_task(
@@ -138,7 +133,7 @@ def test_get_tasks(user_controller: UserController, table_controller: TableContr
             title=faker.city(),
             description=faker.catch_phrase(),
             tags=faker.catch_phrase_noun(),
-            column_id=created_column.id
+            column_id=created_column.id,
         )
     )
     created_task_2 = task_controller.create_task(
@@ -146,7 +141,7 @@ def test_get_tasks(user_controller: UserController, table_controller: TableContr
             title=faker.city(),
             description=faker.catch_phrase(),
             tags=faker.catch_phrase_noun(),
-            column_id=created_column_1.id
+            column_id=created_column_1.id,
         )
     )
     created_task_3 = task_controller.create_task(
@@ -154,7 +149,7 @@ def test_get_tasks(user_controller: UserController, table_controller: TableContr
             title=faker.city(),
             description=faker.catch_phrase(),
             tags=faker.catch_phrase_noun(),
-            column_id=created_column_1.id
+            column_id=created_column_1.id,
         )
     )
     tasks = task_controller.get_tasks()
@@ -176,33 +171,34 @@ def test_get_tasks(user_controller: UserController, table_controller: TableContr
     assert tasks[3].tags == created_task_3.tags
 
 
-def test_delete_create_task(user_controller: UserController, table_controller: TableController, column_controller: ColumnController, task_controller: TaskController, session: Session, faker: Faker) -> None:
+def test_delete_create_task(
+    user_controller: UserController,
+    table_controller: TableController,
+    column_controller: ColumnController,
+    task_controller: TaskController,
+    session: Session,
+    faker: Faker,
+) -> None:
     created_user = user_controller.create_user(
         UserCreate(
             first_name=faker.first_name(),
             last_name=faker.last_name(),
             email=faker.email(),
-            password=faker.password()
+            password=faker.password(),
         )
     )
     created_table = table_controller.create_table(
-        TableCreate(
-            title=faker.city(),
-            user_id=created_user.id
-        )
+        TableCreate(title=faker.city(), user_id=created_user.id)
     )
     created_column = column_controller.create_column(
-        ColumnCreate(
-            title=faker.city(),
-            table_id=created_table.id
-        )
+        ColumnCreate(title=faker.city(), table_id=created_table.id)
     )
     created_task = task_controller.create_task(
         TaskCreate(
             title=faker.city(),
             description=faker.catch_phrase(),
             tags=faker.catch_phrase_noun(),
-            column_id=created_column.id
+            column_id=created_column.id,
         )
     )
     created_task_1 = task_controller.create_task(
@@ -210,7 +206,7 @@ def test_delete_create_task(user_controller: UserController, table_controller: T
             title=faker.city(),
             description=faker.catch_phrase(),
             tags=faker.catch_phrase_noun(),
-            column_id=created_column.id
+            column_id=created_column.id,
         )
     )
     task_controller.delete_task(created_task.id)
@@ -221,7 +217,14 @@ def test_delete_create_task(user_controller: UserController, table_controller: T
     assert task.column_id == created_task_1.column_id
 
 
-def test_update_task(user_controller: UserController, table_controller: TableController, column_controller: ColumnController, task_controller: TaskController, session: Session, faker: Faker) -> None:
+def test_update_task(
+    user_controller: UserController,
+    table_controller: TableController,
+    column_controller: ColumnController,
+    task_controller: TaskController,
+    session: Session,
+    faker: Faker,
+) -> None:
     title = faker.city()
     description = faker.catch_phrase()
     tags = faker.catch_phrase_noun()
@@ -231,31 +234,26 @@ def test_update_task(user_controller: UserController, table_controller: TableCon
             first_name=faker.first_name(),
             last_name=faker.last_name(),
             email=faker.email(),
-            password=faker.password()
+            password=faker.password(),
         )
     )
     created_table = table_controller.create_table(
-        TableCreate(
-            title=faker.city(),
-            user_id=created_user.id
-        )
+        TableCreate(title=faker.city(), user_id=created_user.id)
     )
     created_column = column_controller.create_column(
-        ColumnCreate(
-            title=faker.city(),
-            table_id=created_table.id
-        )
+        ColumnCreate(title=faker.city(), table_id=created_table.id)
     )
     created_task = task_controller.create_task(
         TaskCreate(
             title=faker.city(),
             description=faker.catch_phrase(),
             tags=faker.catch_phrase_noun(),
-            column_id=created_column.id
+            column_id=created_column.id,
         )
     )
     updated_task = task_controller.update_task(
-        created_task.column_id, TaskUpdate(title=title, description=description, tags=tags)
+        created_task.column_id,
+        TaskUpdate(title=title, description=description, tags=tags),
     )
     task = session.exec(select(Task)).all()
     assert task[0].title == updated_task.title
