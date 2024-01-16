@@ -31,12 +31,8 @@ class TaskController:
 
     def update_task(self, task_id: int, task_update: TaskUpdate) -> Task:
         task = self.session.exec(select(Task).where(Task.id == task_id)).one()
-        if task_update.title:
-            task.title = task_update.title
-        if task_update.description:
-            task.description = task_update.description
-        if task_update.tags:
-            task.tags = task_update.tags
+        for key, val in task_update.dict(exclude_unset=True).items():
+            setattr(task, key, val)
         self.session.add(task)
         self.session.commit()
         self.session.refresh(task)

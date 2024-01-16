@@ -33,12 +33,8 @@ class UserController:
 
     def update_user(self, user_id: int, user_update: UserUpdate) -> User:
         user = self.session.exec(select(User).where(User.id == user_id)).one()
-        if user_update.first_name:
-            user.first_name = user_update.first_name
-        if user_update.last_name:
-            user.last_name = user_update.last_name
-        if user_update.email:
-            user.email = user_update.email
+        for key, val in user_update.dict(exclude_unset=True).items():
+            setattr(user, key, val)
         self.session.add(user)
         self.session.commit()
         self.session.refresh(user)

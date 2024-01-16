@@ -28,8 +28,8 @@ class TableController:
 
     def update_table(self, table_id: int, table_update: TableUpdate) -> Table:
         table = self.session.exec(select(Table).where(Table.id == table_id)).one()
-        if table_update.title:
-            table.title = table_update.title
+        for key, val in table_update.dict(exclude_unset=True).items():
+            setattr(table, key, val)
         self.session.add(table)
         self.session.commit()
         self.session.refresh(table)
