@@ -9,7 +9,9 @@ from todo_list.models.columns import Column
 from todo_list.models.tables import Table
 
 
-def test_get_tables(table_controller: TableController, app: FastAPI, client: TestClient) -> None:
+def test_get_tables(
+    table_controller: TableController, app: FastAPI, client: TestClient
+) -> None:
     def _mock_get_tables():
         table_controller.get_tables = Mock(
             return_value=[
@@ -30,12 +32,12 @@ def test_get_tables(table_controller: TableController, app: FastAPI, client: Tes
     ]
 
 
-def test_get_table_by_id(table_controller: TableController, app: FastAPI, client: TestClient) -> None:
+def test_get_table_by_id(
+    table_controller: TableController, app: FastAPI, client: TestClient
+) -> None:
     def _mock_get_table_by_id():
         table_controller.get_table_by_id = Mock(
-            return_value=Table(
-                id=1, title="test1", user_id=1, created_at="2022-11-4"
-            )
+            return_value=Table(id=1, title="test1", user_id=1, created_at="2022-11-4")
         )
         return table_controller
 
@@ -46,16 +48,16 @@ def test_get_table_by_id(table_controller: TableController, app: FastAPI, client
         "id": 1,
         "title": "test1",
         "created_at": "2022-11-4",
-        "user_id": 1
+        "user_id": 1,
     }
 
 
-def test_create_table(table_controller: TableController, app: FastAPI, client: TestClient) -> None:
+def test_create_table(
+    table_controller: TableController, app: FastAPI, client: TestClient
+) -> None:
     def _mock_create_table():
         table_controller.create_table = Mock(
-            return_value=Table(
-                id=1, title="test1", user_id=1, created_at="2022-11-4"
-            )
+            return_value=Table(id=1, title="test1", user_id=1, created_at="2022-11-4")
         )
         return table_controller
 
@@ -69,16 +71,16 @@ def test_create_table(table_controller: TableController, app: FastAPI, client: T
         "id": 1,
         "title": "test1",
         "created_at": "2022-11-4",
-        "user_id": 1
+        "user_id": 1,
     }
 
 
-def test_delete_table(table_controller: TableController, app: FastAPI, client: TestClient) -> None:
+def test_delete_table(
+    table_controller: TableController, app: FastAPI, client: TestClient
+) -> None:
     def _mock_delete_table():
         table_controller.delete_table = Mock(
-            return_value=Table(
-                id=1, title="test1", user_id=1, created_at="2022-11-4"
-            )
+            return_value=Table(id=1, title="test1", user_id=1, created_at="2022-11-4")
         )
         return table_controller
 
@@ -87,29 +89,29 @@ def test_delete_table(table_controller: TableController, app: FastAPI, client: T
     assert delete_table_response.status_code == 204
 
 
-def test_update_table(table_controller: TableController, app: FastAPI, client: TestClient) -> None:
+def test_update_table(
+    table_controller: TableController, app: FastAPI, client: TestClient
+) -> None:
     def _mock_update_table():
         table_controller.update_table = Mock(
-            return_value=Table(
-                id=1, title="test1", user_id=1, created_at="2022-11-4"
-            )
+            return_value=Table(id=1, title="test1", user_id=1, created_at="2022-11-4")
         )
         return table_controller
 
     app.dependency_overrides[get_table_controller] = _mock_update_table
-    update_table_response = client.patch(
-        "/tables/1", json={"title": "test1"}
-    )
+    update_table_response = client.patch("/tables/1", json={"title": "test1"})
     assert update_table_response.status_code == 200
     assert update_table_response.json() == {
         "id": 1,
         "title": "test1",
         "created_at": "2022-11-4",
-        "user_id": 1
+        "user_id": 1,
     }
 
 
-def test_get_user_tables(table_controller: TableController, app: FastAPI, client: TestClient) -> None:
+def test_get_user_tables(
+    table_controller: TableController, app: FastAPI, client: TestClient
+) -> None:
     def _mock_get_table_columns():
         table_controller.get_table_columns = Mock(
             return_value=[

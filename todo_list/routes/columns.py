@@ -58,6 +58,8 @@ def update_column(
 
 @router.get("/{column_id}/tasks", response_model=list[Task])
 def get_column_tasks(
-    *, column_id: int, column_controller: ColumnController = Depends(get_column_controller)
+    *,
+    column_id: int,
+    column_controller: ColumnController = Depends(get_column_controller)
 ):
     return column_controller.get_column_tasks(column_id)

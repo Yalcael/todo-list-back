@@ -73,7 +73,9 @@ def test_get_users(user_controller: UserController, app: FastAPI, client: TestCl
     ]
 
 
-def test_get_user_by_id(user_controller: UserController, app: FastAPI, client: TestClient) -> None:
+def test_get_user_by_id(
+    user_controller: UserController, app: FastAPI, client: TestClient
+) -> None:
     def _mock_get_user_by_id():
         user_controller.get_user_by_id = Mock(
             return_value=User(
@@ -100,7 +102,9 @@ def test_get_user_by_id(user_controller: UserController, app: FastAPI, client: T
     }
 
 
-def test_create_user(user_controller: UserController, app: FastAPI, client: TestClient) -> None:
+def test_create_user(
+    user_controller: UserController, app: FastAPI, client: TestClient
+) -> None:
     def _mock_create_user():
         user_controller.create_user = Mock(
             return_value=User(
@@ -136,7 +140,9 @@ def test_create_user(user_controller: UserController, app: FastAPI, client: Test
     }
 
 
-def test_delete_user(user_controller: UserController, app: FastAPI, client: TestClient) -> None:
+def test_delete_user(
+    user_controller: UserController, app: FastAPI, client: TestClient
+) -> None:
     def _mock_delete_user():
         user_controller.delete_user = Mock(
             return_value=User(
@@ -155,7 +161,9 @@ def test_delete_user(user_controller: UserController, app: FastAPI, client: Test
     assert delete_user_response.status_code == 204
 
 
-def test_update_user(user_controller: UserController, app: FastAPI, client: TestClient) -> None:
+def test_update_user(
+    user_controller: UserController, app: FastAPI, client: TestClient
+) -> None:
     def _mock_update_user():
         user_controller.update_user = Mock(
             return_value=User(
@@ -178,7 +186,7 @@ def test_update_user(user_controller: UserController, app: FastAPI, client: Test
             "email": "samiras@gmail.com",
             "password": "ss99",
             "created_at": "2022-11-04T00:00:00",
-        }
+        },
     )
     assert update_user_response.status_code == 200
     assert update_user_response.json() == {
@@ -191,7 +199,9 @@ def test_update_user(user_controller: UserController, app: FastAPI, client: Test
     }
 
 
-def test_get_user_tables(user_controller: UserController, app: FastAPI, client: TestClient) -> None:
+def test_get_user_tables(
+    user_controller: UserController, app: FastAPI, client: TestClient
+) -> None:
     def _mock_get_user_tables():
         user_controller.get_user_tables = Mock(
             return_value=[
