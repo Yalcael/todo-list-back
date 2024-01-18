@@ -5,6 +5,7 @@ from fastapi import Depends, APIRouter
 from todo_list.controllers.columns import ColumnController
 from todo_list.dependencies import get_column_controller
 from todo_list.models.columns import Column, ColumnCreate, ColumnUpdate
+from todo_list.models.tasks import Task
 
 router = APIRouter(
     prefix="/columns", tags=["columns"], responses={404: {"description": "Not found"}}
@@ -53,3 +54,10 @@ def update_column(
     column_controller: ColumnController = Depends(get_column_controller)
 ):
     return column_controller.update_column(column_id, column_update)
+
+
+@router.get("/{column_id}/tasks", response_model=list[Task])
+def get_column_tasks(
+    *, column_id: int, column_controller: ColumnController = Depends(get_column_controller)
+):
+    return column_controller.get_column_tasks(column_id)

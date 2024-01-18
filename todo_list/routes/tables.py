@@ -4,6 +4,7 @@ from fastapi import Depends, APIRouter
 
 from todo_list.controllers.tables import TableController
 from todo_list.dependencies import get_table_controller
+from todo_list.models.columns import Column
 from todo_list.models.tables import Table, TableCreate, TableUpdate
 
 router = APIRouter(
@@ -47,3 +48,10 @@ def update_table(
     table_controller: TableController = Depends(get_table_controller)
 ):
     return table_controller.update_table(table_id, table_update)
+
+
+@router.get("/{table_id}/columns", response_model=list[Column])
+def get_table_columns(
+    *, table_id: int, table_controller: TableController = Depends(get_table_controller)
+):
+    return table_controller.get_table_columns(table_id)
