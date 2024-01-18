@@ -109,7 +109,7 @@ def test_update_table(
     }
 
 
-def test_get_user_tables(
+def test_get_table_columns(
     table_controller: TableController, app: FastAPI, client: TestClient
 ) -> None:
     def _mock_get_table_columns():
